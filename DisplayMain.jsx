@@ -4,69 +4,59 @@ import PropTypes from 'prop-types';
 
 class DisplayMain extends React.Component {   
        constructor(props) {
-           super(props);
-           this.state ={
-               updatedRecords: [],
-               pagenum : 1,
-               page:""
-           }
-         
+           super(props); 
          this.handleSubmit=this.handleSubmit.bind(this);
          this.DisplayTable=this.DisplayTable.bind(this);
        }
 
+    componentWillMount()
+    {
+      this.handleSubmit();
+
+    }
       
-       handleSubmit(){
-           alert("getting data from server")
-          // get and list few blogs on main page
+    handleSubmit() {
           var  str="pagenum=1"
-          
-         
-        
-        var data;        
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
+          var data={};     
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", "blog/post/query?"+str, true);
+          xhr.send(null); 
+
+        xhr.onreadystatechange = function(e) {
              if (xhr.readyState == 4) {
                   if (!xhr.responseType || xhr.responseType === "text") {
                      data = xhr.responseText;
-                      json = JSON.parse(xmlhttp.responseText);
-                     alert("Text "+json)
+                     this.DisplayTable(data)
                   } else if (xhr.responseType === "document") {
                              data = xhr.responseXML;
-                             alert("document" + data)
+                             this.DisplayTable(data)
                   } else {
                          data = xhr.response;
-                         alert("Response" + data)
+                         this.DisplayTable(data)
+                         
                   }
                     
               }
-        }
-         /* var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function() {
-              if (xhr.readyState == XMLHttpRequest.DONE) {
-                  alert(xhr.responseText);
-               }
-         };*/
-         xhr.open("GET", "blog/post/query?"+str, true);
-         xhr.send(null); 
-
-        this.DisplayTable(data)
+        }.bind(this)
        
-       }
+    }
 
-     DisplayTable(data){
-         alert("display is called")
-         var display=""
-        for(var i=0;i<=2;i++) {
-            const tv='How to write Blogs and jist on it'
-           display= display+$('#table-main-page').append('<tr><td> <blockquote>'+tv + i +'<footer>'+ i + '</footer></blockquote></td></tr>');
-            $('#row-id').append('<div class="col-sm-4"><h3>'+ i +'</h3><p>' + tv + '</p></div>');
-            display=display+data;
-         }
-
-         this.setState({
+    DisplayTable(data){
+        //alert("display is called with>>>" + data + "JSON"+ JSON.stringify(data));
+        var post = JSON.parse(data);
+        var display='<h1/>';
+        var i=0;
+        
+        $('#table-main-page').append('<tr><td> <blockquote><h1>'+post[i].title+'</h1><footer>'+ post[i].published_content+ '<br>' + post[i].postDate + '</footer></blockquote></td></tr>')
+        for (i = 1; i < post.length; i++) {
+            $('#table-main-page').append('<tr><td> <blockquote><h1>'+post[i].title+'</h1><footer>'+ post[i].published_content+ '<br>' + post[i].postDate + '</footer></blockquote></td></tr>')
+            //$('#row-id').append('<div class="col-sm-4"><h3>'+ post[i].status +'</h3><p>' +post[i].published_content+ '</p></div>');
+        }
+        alert("THis target" + display)
+        this.setState({
              page: display
-         });
+        });
+         $("#table-main-page").show();
     }
 
 
@@ -74,18 +64,9 @@ class DisplayMain extends React.Component {
     
         return (
             <div>
-                 <span> 
-                  {this.state.page}
-                 </span>
-                 <button type="submit"
-                      ref="submit"
-                      className="btn btn-success" onClick={this.handleSubmit}>
-                    Query
-                  </button> 
             </div>
         );
-
-    }
+     }
 
 }
 
