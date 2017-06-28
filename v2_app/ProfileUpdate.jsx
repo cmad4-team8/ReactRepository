@@ -5,7 +5,7 @@ import {ControlLabel}from  'react-bootstrap'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 
-class RegisterUser extends React.Component {
+class ProfileUpdate extends React.Component {
 
        constructor(props) {
            super(props);
@@ -13,13 +13,9 @@ class RegisterUser extends React.Component {
                   firstName:"",
                   lastName:"",
                   loginName: "", 
-                  password: "",
-                  cpassword:"",
-                  userHint:"",
                   doB:"",
                   emailId:"",
-                  checked:false, 
-                  url:'',
+                  url: "",
                   error: false
            }
            /* we have to bind this */
@@ -55,14 +51,10 @@ class RegisterUser extends React.Component {
            event.preventDefault();
 
            var formData = { 
-               "login_id" : this.state.loginName,
-               "pwd": this.state.password,
-               "cpwd":this.state.cpassword,
-               "hint":this.state.userHint,
                "f_name":this.state.firstName,
                "l_name":this.state.lastName,
                "email":this.state.emailId,
-               "dob":this.state.doB
+               "Date":this.state.doB
             };
 
             if (this._validateInput()) {
@@ -75,7 +67,6 @@ class RegisterUser extends React.Component {
                     cache: false,
                     success: function(data) {
                         this.setState({data: data}); // Notice this
-                        console.log(JSON.parse(data));
                     }.bind(this),
                     error: function(xhr, status, err) {
                             console.error(this.props.url, status, err.toString());
@@ -85,40 +76,37 @@ class RegisterUser extends React.Component {
               this.setState({
                   firstName:"",
                   lastName:"",
-                  loginName: "", 
-                  password: "",
-                  cpassword:"",
-                  userHint:"",
                   doB:"",
                   emailId:"",
-                  userConsent:false,
               });
           }
        }
-     /*
+
      _SendLoginDeatils(form) {
            var logindata = {
-                "login_id" : form.loginName,
-                "pwd": form.password
+                "f_name":this.state.firstName,
+               "l_name":this.state.lastName,
+               "email":this.state.emailId,
+               "dob":this.state.doB
            };
 
          
            $.ajax({
-                    url: this.props.url,
+                    url: this.prop.url,
                     dataType: 'json',
-                    type: 'post',
+                    type: 'put',
                     contentType: "application/json; charset=utf-8",
                     cache: false,
                     success: function(data) {
                         this.setState({data: data}); // Notice this
                     }.bind(this),
                     error: function(xhr, status, err) {
-                            console.error(this.props.url, status, err.toString());
+                            console.error(this.prop.url, status, err.toString());
                     }.bind(this),
                     data: JSON.stringify(logindata)
            });
            
-        }*/
+       }
 
      handleChange(event, attribute) {
         var newState = this.state;
@@ -143,9 +131,8 @@ class RegisterUser extends React.Component {
         var errorMessage = this._renderError();
 
         return (
-         <div  style={{paddingLeft:250 , paddingRight:250}} id='register-blogger'>
-              <Jumbotron>
-         <h1 style={{paddingLeft:50}}><justify> Blogger Registation</justify></h1>
+         <div  >
+         <h1 style={{paddingLeft:50}}><justify>User Profile Update</justify></h1>
                 {errorMessage}
           <div style={{width: 300, paddingLeft:100}}>
             <form onSubmit={this.handleSubmit} >
@@ -164,36 +151,7 @@ class RegisterUser extends React.Component {
                      value={this.state.lastName}
                      onChange={(event) => this.handleChange(event, 'lastName')} />
                 </div>
-                <div className="form-group">
-                  <input className="form-control"
-                     type="text"
-                     placeholder="user name"
-                     value={this.state.loginName}
-                     onChange={(event) => this.handleChange(event, 'loginName')} required/>
-                </div>
-                <div className="form-group">
-                  <input className="form-control"
-                     type="password"
-                     placeholder="password"
-                     value={this.state.password}
-                     onChange={(event) => this.handleChange(event, 'password')} required/>
-              </div>
-              <div className="form-group">
-                  <input className="form-control"
-                     type="password"
-                     placeholder="confirm password"
-                     value={this.state.cpassword}
-                     onChange={(event) => this.handleChange(event, 'cpassword')} required/>
-            </div> 
-             <div className="form-group">
-                     <input className="form-control"
-                     type="text"
-                     placeholder="password hint"
-                     value={this.state.userHint}
-                     onChange={(event) => this.handleChange(event, 'userHint')} required/>
-
-              </div>
-
+                
               <div className="form-group">
                   <input className="form-control"
                      type="date"
@@ -209,36 +167,22 @@ class RegisterUser extends React.Component {
                      value={this.state.emailId}
                      onChange={(event) => this.handleChange(event, 'emailId')} required/>
               </div>
-               <div className="form-group">
-                     <label>
-                     Agree terms and conditions:
-                     <input
-                        name="userConsent"
-                        type="checkbox"
-                        checked={this.state.userConsent}
-                        onClick={(event) => { this.setState({ checked: !this.state.checked }); }}
-                        onChange={(event) => this.handleChange(event, 'userConsent')} />
-                     </label>
-
-               </div>
 
               <div className="form-group">
                   <button type="submit"
-                      ref="submit"
                       className="btn btn-success">
                    Submit
                   </button>
                </div>
            </form>
          </div>
-          </Jumbotron>
        </div>
       );
     }
    
 }
 
-RegisterUser.PropTypes = {
+ ProfileUpdate.PropTypes = {
      firstName: PropTypes.string.isRequired,
      lastName: PropTypes.string.isRequired,
      loginName: PropTypes.string.isRequired,
@@ -246,4 +190,4 @@ RegisterUser.PropTypes = {
      cpassword: PropTypes.string.isRequired
 }
 
-export default RegisterUser;
+export default  ProfileUpdate;

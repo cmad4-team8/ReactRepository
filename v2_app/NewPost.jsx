@@ -4,7 +4,6 @@ import {Button, ButtonGroup, Glyphicon,Jumbotron, Table, Row, Col, Form, FormGro
 import {ControlLabel, Input} from  'react-bootstrap'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
-import Print from './MyModal.jsx'
 
 
 
@@ -149,7 +148,7 @@ class NewPost extends React.Component {
         var errorMessage = this._renderError();
 
         return (
-         <div className="login jumbotron center-block" style={{paddingLeft:100 , paddingRight:250}} id='login-blogger-post'>
+         <div className="login jumbotron center-block" >
          <h1 style={{paddingLeft:100}}>New blog post</h1>
                 {errorMessage}
 
@@ -178,7 +177,6 @@ class NewPost extends React.Component {
                 </div>
                 <div className="form-group">
                   <button type="submit"
-                      ref="save" 
                       className="btn btn-success" onClick={this.handleSave}>
                     Save
                   </button>
@@ -186,7 +184,6 @@ class NewPost extends React.Component {
 
                 <div className="form-group">
                   <button type="submit"
-                      ref="publish"
                       className="btn btn-success" onClick={this.handlePublish}>
                     Publish
                   </button>

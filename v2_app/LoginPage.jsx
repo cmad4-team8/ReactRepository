@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import {Button, ButtonGroup, Glyphicon,Jumbotron, Table, Row, Col, Form, FormGroup,FormControl } from  'react-bootstrap';
 import {ControlLabel}from  'react-bootstrap'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
@@ -58,14 +57,11 @@ class LoginPage extends React.Component {
                         this.props.login_id= form.loginName;
                         this.setState({data: data}); // Notice this
                         console.log(JSON.parse(data));
-                        alert("Loging success");
                     }.bind(this),
                     error: function(xhr, status, err) {
-                            alert("failed to login"+ form.loginName)
                             console.log(status);
                             console.log(JSON.parse(data));
                             console.error(this.props.url, status, err.toString());
-                            alert("Loging failed");
                     }.bind(this),
 
                     data: JSON.stringify(logindata)
@@ -99,7 +95,6 @@ class LoginPage extends React.Component {
       updateFormData(formData) {
        console.log(formData);
        console.log(this.props.url);
-       alert('Loging user '+formData.loginName);
        this._SendLoginDeatils(formData);
      }
 
@@ -110,7 +105,7 @@ class LoginPage extends React.Component {
         var errorMessage = this._renderError();
 
         return (
-         <div style={{paddingLeft:250 , paddingRight:250}} id='login-blogger'>
+         <div >
               <Jumbotron >
          <h1><justify> User Login</justify></h1>
                 {errorMessage}
@@ -133,7 +128,6 @@ class LoginPage extends React.Component {
               </div>
               <div className="form-group">
                   <button type="submit"
-                      ref="submit"
                       className="btn btn-success">
                    Submit
                   </button>
